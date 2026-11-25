@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Nahid Universal Downloader Bot</title>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0b1630;--surface:#13234a;--line:#25396b;--text:#eef3ff;--mute:#9db0d8;
+  --yellow:#ffd23f;--teal:#2de2c0;--blue:#4da3ff;--onyellow:#1a1400;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+  color-scheme:dark;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark}}
+@media (prefers-color-scheme:light){
+  :root:not([data-theme="dark"]){--bg:#f4f8ff;--surface:#ffffff;--line:#cfdcf5;--text:#0e1c3d;--mute:#4a5f8d;--yellow:#f2b800;--teal:#0a9d84;--blue:#1f6fd1;--onyellow:#1a1400;color-scheme:light}
+}
+:root[data-theme="dark"]{--bg:#0b1630;--surface:#13234a;--line:#25396b;--text:#eef3ff;--mute:#9db0d8}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--text);font-family:"Hind Siliguri",system-ui,sans-serif;line-height:1.6;overflow-x:hidden}
+.wrap{max-width:980px;margin:0 auto;padding:20px}
+h1,h2,h3,.disp{font-family:"Space Grotesk","Hind Siliguri",sans-serif;line-height:1.15;margin:0}
+.top{display:flex;justify-content:space-between;align-items:center;padding:6px 0 18px}
+.brand{font-weight:700;font-size:1.05rem}
+.brand b{color:var(--yellow)}
+.lang{display:flex;gap:6px}.lang button{font:inherit;font-weight:700;font-size:.85rem;background:var(--surface);color:var(--text);border:1px solid var(--line);border-radius:99px;padding:5px 12px;cursor:pointer}.lang button[aria-pressed="true"]{background:var(--yellow);color:var(--onyellow);border-color:var(--yellow)}.lang button:focus-visible{outline:3px solid var(--blue);outline-offset:2px}.live{font-size:.85rem;color:var(--teal);display:flex;gap:8px;align-items:center}
+.live i{width:9px;height:9px;border-radius:50%;background:var(--teal);animation:pulse 1.6s infinite}
+@keyframes pulse{50%{opacity:.25}}
+.hero{display:grid;gap:28px;padding:10px 0 30px}
+@media(min-width:760px){.hero{grid-template-columns:1.1fr .9fr;align-items:center}}
+h1{font-size:clamp(2.2rem,8vw,3.6rem);font-weight:700}
+h1 span{display:block;color:var(--yellow)}
+.lead{color:var(--mute);font-size:1.08rem;max-width:34em;margin:14px 0 22px}
+.btn{display:inline-block;background:var(--yellow);color:var(--onyellow);font-weight:700;text-decoration:none;padding:14px 24px;border-radius:12px;font-size:1.05rem}
+.btn:focus-visible,a:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.chip{border:1px solid var(--line);padding:5px 14px;border-radius:99px;font-size:.9rem;background:var(--surface)}
+.chat{background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:16px;min-height:300px;display:flex;flex-direction:column;gap:10px}
+.chat .hd{font-size:.85rem;color:var(--mute);border-bottom:1px solid var(--line);padding-bottom:8px}
+.msg{max-width:88%;padding:10px 14px;border-radius:16px;font-size:.95rem;opacity:0;transform:translateY(6px);transition:.4s}
+.msg.show{opacity:1;transform:none}
+.me{align-self:flex-end;background:var(--blue);color:#fff;border-bottom-right-radius:4px;word-break:break-all}
+.bot{align-self:flex-start;background:var(--bg);border:1px solid var(--line);border-bottom-left-radius:4px}
+.bar{height:8px;background:var(--line);border-radius:9px;margin-top:8px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--teal),var(--yellow));transition:width 2.2s ease}
+h2{font-size:1.7rem;margin:34px 0 16px}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:20px}
+.card .ic{font-size:1.9rem}
+.card h3{font-size:1.15rem;margin:8px 0 6px}
+.card p{margin:0;color:var(--mute);font-size:.95rem}
+.c1{border-top:4px solid var(--yellow)}.c2{border-top:4px solid var(--teal)}.c3{border-top:4px solid var(--blue)}.c4{border-top:4px solid #ff7a59}
+.steps{display:grid;gap:12px;counter-reset:s}
+.step{display:flex;gap:14px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px}
+.step::before{counter-increment:s;content:counter(s);flex:none;width:34px;height:34px;border-radius:50%;background:var(--teal);color:#04241d;font-weight:700;display:grid;place-items:center}
+.step p{margin:0}
+.cta{text-align:center;margin:40px 0 10px;padding:30px 18px;border-radius:22px;background:linear-gradient(135deg,var(--surface),var(--bg));border:1px solid var(--line)}
+.cta p{color:var(--mute);margin:10px 0 20px}
+footer{text-align:center;color:var(--mute);font-size:.85rem;padding:18px 0 28px}
+@media(prefers-reduced-motion:reduce){.msg,.bar i{transition:none}.live i{animation:none}}
+.cm{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:20px;display:grid;gap:12px}
+.cm input,.cm textarea{font:inherit;width:100%;background:var(--bg);color:var(--text);border:1px solid var(--line);border-radius:12px;padding:12px}
+.cm textarea{min-height:110px;resize:vertical}
+.cm input:focus-visible,.cm textarea:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.cm button{font:inherit;font-weight:700;border:0;border-radius:12px;padding:13px 22px;background:var(--teal);color:#04241d;cursor:pointer;justify-self:start}
+.cm button:disabled{opacity:.6}
+#st{margin:0;font-size:.95rem;min-height:1.4em}
+.hp{position:absolute;left:-9999px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div class="brand">Nahid <b>Downloader</b></div>
+    <div class="lang" role="group" aria-label="Language"><button data-l="bn">বাংলা</button><button data-l="en">English</button><button data-l="ms">Melayu</button></div>
+  </div>
+
+  <section class="hero">
+    <div>
+      <h1><em data-t="h1a" style="font-style:normal"></em><span data-t="h1b"></span></h1>
+      <p class="lead" data-t="lead"></p>
+      <a class="btn" id="open" data-t="cta" href="#" target="_blank" rel="noopener"></a>
+      <div class="chips">
+        <span class="chip">▶ YouTube</span><span class="chip">♪ TikTok</span><span class="chip">◎ Instagram</span><span class="chip">f Facebook</span>
+      </div>
+    </div>
+    <div class="chat" aria-label="Demo">
+      <div class="hd">Nahid Downloader Bot</div>
+      <div class="msg me" id="m1">https://youtu.be/example</div>
+      <div class="msg bot" id="m2"><span data-t="m2"></span><div class="bar"><i id="pb"></i></div></div>
+      <div class="msg bot" id="m3" data-t="m3"></div>
+    </div>
+  </section>
+
+  <h2 data-t="h2a"></h2>
+  <div class="grid">
+    <div class="card c1"><div class="ic">🎬</div><h3 data-t="c1h"></h3><p data-t="c1p"></p></div>
+    <div class="card c2"><div class="ic">🖼️</div><h3 data-t="c2h"></h3><p data-t="c2p"></p></div>
+    <div class="card c3"><div class="ic">✍️</div><h3 data-t="c3h"></h3><p data-t="c3p"></p></div>
+    <div class="card c4"><div class="ic">🎵</div><h3 data-t="c4h"></h3><p data-t="c4p"></p></div>
+  </div>
+
+  <h2 data-t="h2b"></h2>
+  <div class="steps">
+    <div class="step"><p data-t="s1"></p></div>
+    <div class="step"><p data-t="s2"></p></div>
+    <div class="step"><p data-t="s3"></p></div>
+  </div>
+
+  <h2 data-t="h2d"></h2>
+  <form class="cm" id="cf">
+    <input type="text" name="name" id="nm" data-p="pn" maxlength="60" autocomplete="name" required>
+    <textarea name="message" id="ms" data-p="pm" maxlength="1500" required></textarea>
+    <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off">
+    <button type="submit" id="sb" data-t="send"></button>
+    <p id="st" role="status"></p>
+  </form>
+
+  <div class="cta">
+    <h2 style="margin:0" data-t="h2c"></h2>
+    <p data-t="ctap"></p>
+    <a class="btn" id="open2" data-t="cta" href="#" target="_blank" rel="noopener"></a>
+  </div>
+  <footer data-t="foot"></footer>
+</div>
+<script>
+// এখানে আপনার বটের ইউজারনেম বসান (@ ছাড়া)
+var BOT_USERNAME = "NahidHisabPro_Bot";
+var url = "https://t.me/" + BOT_USERNAME;
+document.getElementById("open").href = url;
+document.getElementById("open2").href = url;
+
+var T={
+bn:{h2d:"মন্তব্য লিখুন",pn:"আপনার নাম",pm:"আপনার মতামত বা প্রশ্ন লিখুন…",send:"পাঠান",ok:"✅ ধন্যবাদ! আপনার মন্তব্য পাঠানো হয়েছে।",er:"❌ পাঠানো যায়নি। একটু পরে আবার চেষ্টা করুন।",wt:"পাঠানো হচ্ছে…",h1a:"লিংক দিন, ",h1b:"ভিডিও নিন।",lead:"YouTube, TikTok, Instagram ও Facebook-এর ভিডিও নামান। ছবি বা লেখা থেকে QR কোড বানান। ভিডিও থেকে MP3 অডিও বের করুন। সব টেলিগ্রামের ভেতরেই, বিনামূল্যে।",cta:"টেলিগ্রামে বট খুলুন",h2a:"বট কী কী করে",c1h:"ভিডিও ডাউনলোড",c1p:"YouTube, TikTok, Instagram ও Facebook-এর লিংক পাঠান। সর্বোচ্চ 1080p MP4।",c2h:"ছবি থেকে QR",c2p:"একটি ছবি পাঠান। বট তার লিংক বানিয়ে QR কোড ফেরত দেবে।",c3h:"লেখা থেকে QR",c3p:"যেকোনো লেখা পাঠান। বট শেয়ারযোগ্য লিংক ও QR কোড বানিয়ে দেবে।",c4h:"ভিডিও থেকে অডিও",c4p:"20 MB পর্যন্ত ভিডিও পাঠান। বট MP3 বের করে দেবে।",h2b:"ব্যবহারের নিয়ম",s1:"নিচের বাটনে চেপে টেলিগ্রামে বট খুলুন এবং Start চাপুন।",s2:"মেনু থেকে টুল বাছুন, অথবা সরাসরি ভিডিও লিংক পেস্ট করুন।",s3:"কয়েক সেকেন্ডের মধ্যে ভিডিও, QR বা MP3 ফাইল চ্যাটে পেয়ে যাবেন।",h2c:"এখনই চালিয়ে দেখুন",ctap:"বন্ধুদের গ্রুপেও শেয়ার করুন।",foot:"তৈরি করেছেন Nahid। শুধু পাবলিক ভিডিও নামানো যাবে। QR-এর জন্য আপলোড করা ছবি ও লেখা পাবলিক লিংকে থাকে।",m2:"📥 ভিডিও ডাউনলোড হচ্ছে…",m3:"✅ ভিডিও প্রস্তুত! নিচে পাঠানো হলো।"},
+en:{h2d:"Leave a comment",pn:"Your name",pm:"Write your feedback or question…",send:"Send",ok:"✅ Thank you! Your comment was sent.",er:"❌ Could not send. Please try again in a moment.",wt:"Sending…",h1a:"Paste a link, ",h1b:"get the video.",lead:"Download videos from YouTube, TikTok, Instagram and Facebook. Turn a photo or text into a QR code. Extract MP3 audio from any video. All inside Telegram, for free.",cta:"Open the bot on Telegram",h2a:"What the bot does",c1h:"Video downloader",c1p:"Send a YouTube, TikTok, Instagram or Facebook link. Up to 1080p MP4.",c2h:"Photo to QR",c2p:"Send a photo. The bot makes a link for it and returns a QR code.",c3h:"Text to QR",c3p:"Send any text. The bot makes a shareable link and a QR code.",c4h:"Video to audio",c4p:"Send a video up to 20 MB. The bot extracts the MP3.",h2b:"How to use it",s1:"Tap the button below to open the bot on Telegram, then press Start.",s2:"Pick a tool from the menu, or paste a video link directly.",s3:"Within seconds the video, QR code or MP3 arrives in your chat.",h2c:"Try it now",ctap:"Share it with your friends’ groups too.",foot:"Made by Nahid. Only public videos can be downloaded. Photos and text uploaded for QR codes are stored behind public links.",m2:"📥 Downloading video…",m3:"✅ Video ready! Sent below."},
+ms:{h2d:"Tinggalkan komen",pn:"Nama anda",pm:"Tulis maklum balas atau soalan anda…",send:"Hantar",ok:"✅ Terima kasih! Komen anda telah dihantar.",er:"❌ Gagal dihantar. Sila cuba lagi sebentar lagi.",wt:"Menghantar…",h1a:"Tampal pautan, ",h1b:"dapat video.",lead:"Muat turun video dari YouTube, TikTok, Instagram dan Facebook. Tukar foto atau teks kepada kod QR. Ambil audio MP3 daripada video. Semuanya dalam Telegram, percuma.",cta:"Buka bot di Telegram",h2a:"Apa yang bot ini boleh buat",c1h:"Muat turun video",c1p:"Hantar pautan YouTube, TikTok, Instagram atau Facebook. Sehingga 1080p MP4.",c2h:"Foto ke QR",c2p:"Hantar satu foto. Bot akan buat pautan dan pulangkan kod QR.",c3h:"Teks ke QR",c3p:"Hantar sebarang teks. Bot akan buat pautan boleh kongsi dan kod QR.",c4h:"Video ke audio",c4p:"Hantar video sehingga 20 MB. Bot akan ambil MP3.",h2b:"Cara guna",s1:"Tekan butang di bawah untuk buka bot di Telegram, kemudian tekan Start.",s2:"Pilih alat daripada menu, atau tampal terus pautan video.",s3:"Dalam beberapa saat video, kod QR atau MP3 sampai ke sembang anda.",h2c:"Cuba sekarang",ctap:"Kongsi juga dalam kumpulan rakan anda.",foot:"Dibuat oleh Nahid. Hanya video awam boleh dimuat turun. Foto dan teks yang dimuat naik untuk kod QR disimpan di pautan awam.",m2:"📥 Memuat turun video…",m3:"✅ Video siap! Dihantar di bawah."}
+};
+var cur="bn";
+function setLang(l){
+  cur=l;var d=T[l];
+  document.documentElement.lang=l;
+  document.querySelectorAll("[data-t]").forEach(function(e){e.textContent=d[e.getAttribute("data-t")]});
+  document.querySelectorAll(".lang button").forEach(function(b){b.setAttribute("aria-pressed",b.getAttribute("data-l")===l)});
+  document.querySelectorAll("[data-p]").forEach(function(e){e.placeholder=d[e.getAttribute("data-p")]});
+  document.title="Nahid Universal Downloader Bot";
+  try{localStorage.setItem("lang",l)}catch(e){}
+}
+document.querySelectorAll(".lang button").forEach(function(b){b.addEventListener("click",function(){setLang(b.getAttribute("data-l"))})});
+var start="bn";
+try{start=localStorage.getItem("lang")||""}catch(e){}
+if(!T[start]){var n=(navigator.language||"bn").slice(0,2);start=T[n]?n:"bn"}
+setLang(start);
+
+var KEY="82c0a025-a653-492c-8d8b-eadeb077a4ba";
+document.getElementById("cf").addEventListener("submit",function(ev){
+  ev.preventDefault();
+  var f=ev.target,st=document.getElementById("st"),sb=document.getElementById("sb");
+  if(f.botcheck.checked)return;
+  sb.disabled=true;st.textContent=T[cur].wt;
+  fetch("https://api.web3forms.com/submit",{method:"POST",headers:{"Content-Type":"application/json",Accept:"application/json"},
+    body:JSON.stringify({access_key:KEY,subject:"New comment on Nahid Bot page",name:f.name.value,message:f.message.value,botcheck:""})})
+  .then(function(r){return r.json()})
+  .then(function(j){if(j.success){st.textContent=T[cur].ok;f.reset()}else{st.textContent=T[cur].er}})
+  .catch(function(){st.textContent=T[cur].er})
+  .then(function(){sb.disabled=false});
+});
+var m1=document.getElementById("m1"),m2=document.getElementById("m2"),m3=document.getElementById("m3"),pb=document.getElementById("pb");
+function play(){
+  [m1,m2,m3].forEach(function(e){e.classList.remove("show")});
+  pb.style.transition="none";pb.style.width="0";
+  setTimeout(function(){m1.classList.add("show")},500);
+  setTimeout(function(){m2.classList.add("show");pb.style.transition="width 2.2s ease";pb.style.width="100%"},1500);
+  setTimeout(function(){m3.classList.add("show")},4100);
+  setTimeout(play,8500);
+}
+play();
+</script>
+</body>
+</html>
